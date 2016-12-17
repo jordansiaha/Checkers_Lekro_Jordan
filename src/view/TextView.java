@@ -1,9 +1,13 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Observable;
+
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import model.CheckersGame;
 
@@ -11,14 +15,40 @@ import model.CheckersGame;
 public class TextView extends JPanel implements Observer {
 
 	private CheckersGame game;
+	public JTextArea gameArea;
+	private static int height = 700;
+	private static int width = 700;
+
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		updateFields();
 	}
 	
-	public TextView(CheckersGame game){
-		this.game = game;
-	}
 
+	public TextView(CheckersGame game) {
+		this.game = game;
+		
+		initializeTextFields();
+		updateFields();
+	}
+	private void initializeTextFields() {
+		gameArea = new JTextArea(game.toString());
+		gameArea.setBackground(Color.BLACK);
+		gameArea.setForeground(Color.WHITE);
+
+		gameArea.setSize(width, height);
+		gameArea.setLocation(100, 90);
+		
+		gameArea.setFont(new Font("Courier", Font.BOLD, 24));
+		this.setLayout(null);
+		this.add(gameArea); // Add the game area to the JPanel.
+		gameArea.setEditable(false); // For weird people who try to edit the textArea Lol.
+		
+	}
+	// Update the textual representation of the game.
+	// Just calls on the toString method in the CheckersGame which reveals the
+	// current state of the game.
+	public void updateFields() {
+		gameArea.setText(game.toString());
+	}
 }
