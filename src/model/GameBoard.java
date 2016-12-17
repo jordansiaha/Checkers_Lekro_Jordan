@@ -34,7 +34,7 @@ public class GameBoard {
 		checkCoordinates(x, y);
 		
 		GamePiece old = gameBoard[x][y];
-		old.setBoard(null);
+		if (old != null) old.setBoard(null);
 		p.setBoard(this);
 		gameBoard[x][y] = p;
 		return old;
