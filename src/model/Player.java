@@ -14,7 +14,7 @@ public class Player {
 		return isTurn;
 	}
 	
-	
+	// Change player turn.
 	public void changeTurn(){
 		if(isTurn == false){
 			isTurn = true;
