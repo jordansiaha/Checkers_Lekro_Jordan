@@ -7,5 +7,11 @@ public class CheckersPiece extends GamePiece{
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public char getCharacterRepresentation() {
+		// TODO use player emblem or something
+		return 'O';
+	}
+
 	
 }

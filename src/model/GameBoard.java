@@ -123,6 +123,24 @@ public class GameBoard {
 	}
 	
 	/**
+	 * Returns the String representation of this GameBoard.
+	 * Empty spaces (null) are represented by spaces
+	 * GamePieces are represented by their getCharacterRepresentation()
+	 */
+	public String toString() {
+		StringBuilder ret = new StringBuilder();
+		for (int j = height - 1; j >= 0; j--) {
+			for (int i = 0; i < width; i++) {
+				GamePiece p = gameBoard[i][j];
+				if (p == null) ret.append(" ");
+				else ret.append(p.getCharacterRepresentation());
+			}
+			ret.append("\n");
+		}
+		return ret.substring(0, ret.length() - 1);
+	}
+	
+	/**
 	 * Throws an IndexOutOfBoundsException if (x, y) are not within this game board.
 	 * @param x
 	 * @param y

@@ -47,4 +47,6 @@ public abstract class GamePiece {
 		// TODO
 		return false;
 	}
+	
+	public abstract char getCharacterRepresentation();
 }
