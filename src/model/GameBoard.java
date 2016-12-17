@@ -22,6 +22,8 @@ public class GameBoard {
 
 	/**
 	 * Adds a game piece to the board at location specified by (x, y).
+	 * The newly added GamePiece has its board set to this one.
+	 * The removed GamePiece has its board set to null.
 	 * @param p - Piece to add
 	 * @param x - X coordinate at which to add
 	 * @param y - Y coordinate at which to add
@@ -32,6 +34,8 @@ public class GameBoard {
 		checkCoordinates(x, y);
 		
 		GamePiece old = gameBoard[x][y];
+		old.setBoard(null);
+		p.setBoard(this);
 		gameBoard[x][y] = p;
 		return old;
 		
@@ -39,6 +43,8 @@ public class GameBoard {
 	
 	/**
 	 * Adds a game piece to the board at location specified by given 2d vector.
+	 * The newly added GamePiece has its board set to this one.
+	 * The removed GamePiece has its board set to null.
 	 * @param p - Piece to add
 	 * @param vec - 2d vector specifying location at which to add piece
 	 * @return the GamePiece previously at the location at which the new one was added, or null
@@ -75,6 +81,7 @@ public class GameBoard {
 	
 	/**
 	 * Remove a GamePiece at (x, y). Its spot in the gameBoard becomes null.
+	 * The removed GamePiece has its board set to null.
 	 * @param x
 	 * @param y
 	 * @return the GamePiece which was removed
@@ -84,11 +91,13 @@ public class GameBoard {
 		checkCoordinates(x, y);
 		GamePiece p = gameBoard[x][y];
 		gameBoard[x][y] = null;
+		p.setBoard(null);
 		return p;
 	}
 	
 	/**
 	 * Remove a GamePiece at the given 2d vector. Its spot in the gameBoard becomes null.
+	 * The removed GamePiece has its board set to null.
 	 * @param x
 	 * @param y
 	 * @return the GamePiece which was removed
