@@ -49,6 +49,7 @@ public class GameBoard {
 	 * @param vec - 2d vector specifying location at which to add piece
 	 * @return the GamePiece previously at the location at which the new one was added, or null
 	 * @throws IndexOutOfBoundsException - if the coordinates (x, y) are not on the board
+	 * @throws IllegalArgumentException - if the vector is not two-dimensional (array length != 2)
 	 */
 	public GamePiece put(GamePiece p, int[] vec) {
 		check2dVector(vec);
@@ -73,6 +74,7 @@ public class GameBoard {
 	 * @param y
 	 * @return the GamePiece at the given 2d vector.
 	 * @throws IndexOutOfBoundsException - if the coordinates (x, y) are not on the board
+	 * @throws IllegalArgumentException - if the vector is not two-dimensional (array length != 2)
 	 */
 	public GamePiece get(int[] vec) {
 		check2dVector(vec);
@@ -102,6 +104,7 @@ public class GameBoard {
 	 * @param y
 	 * @return the GamePiece which was removed
 	 * @throws IndexOutOfBoundsException - if the coordinates (x, y) are not on the board
+	 * @throws IllegalArgumentException - if the vector is not two-dimensional (array length != 2)
 	 */
 	public GamePiece remove(int[] vec) {
 		check2dVector(vec);
@@ -123,12 +126,38 @@ public class GameBoard {
 	}
 	
 	/**
+	 * Check if (x, y) has something on this gameboard.
+	 * @param x
+	 * @param y
+	 * @return true if the location (x, y) has something in it; false otherwise.
+	 * @throws IndexOutOfBoundsException - if the coordinates (x, y) are not on the board
+	 */
+	public boolean isOccupied(int x, int y) {
+		checkCoordinates(x, y);
+		if (gameBoard[x][y] == null) return false;
+		return true;
+	}
+
+	/**
+	 * Check if the location indicated by a given 2d vector has something on this gameboard.
+	 * @param vec - 2d vector in form {x, y}
+	 * @return true if the location (x, y) has something in it; false otherwise.
+	 * @throws IndexOutOfBoundsException - if the coordinates (x, y) are not on the board
+	 * @throws IllegalArgumentException - if the vector is not two-dimensional (array length != 2)
+	 */
+	public boolean isOccupied(int[] vec) {
+		check2dVector(vec);
+		return isOccupied(vec[0], vec[1]);
+	}
+	
+	/**
 	 * Returns the String representation of this GameBoard.
 	 * Empty spaces (null) are represented by spaces
 	 * GamePieces are represented by their getCharacterRepresentation()
 	 */
 	public String toString() {
-		StringBuilder ret = new StringBuilder();
+		// Allocate exactly how much we need so the StringBuilder doesn't need to resize
+		StringBuilder ret = new StringBuilder(width*height + height);
 		for (int j = height - 1; j >= 0; j--) {
 			for (int i = 0; i < width; i++) {
 				GamePiece p = gameBoard[i][j];
