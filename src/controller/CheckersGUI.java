@@ -117,7 +117,7 @@ public class CheckersGUI extends JFrame implements ActionListener{
 		int y1 = Integer.parseInt(moveFromY.getText());
 		int x2 = Integer.parseInt(moveToX.getText());
 		int y2 = Integer.parseInt(moveToY.getText());
-		theGame.ExecuteMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
+		theGame.executeMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
 		textView.updateFields();
 	}
 }

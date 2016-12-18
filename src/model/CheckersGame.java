@@ -35,7 +35,7 @@ public class CheckersGame extends Observable {
 			return p1;
 		}
 	}
-	public void ExecuteMove(Player p, int x1, int y1, int x2, int y2){
+	public void executeMove(Player p, int x1, int y1, int x2, int y2){
 		p.makeAMove(gameBoard, x1, y1, x2, y2);
 		currentPlayerMove += 1; // Other player's turn.
 		setChanged();
