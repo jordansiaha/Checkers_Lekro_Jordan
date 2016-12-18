@@ -1,14 +1,22 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import model.CheckersGame;
 import view.GraphicView;
 import view.TextView;
 
 // Controller class, decides which view is shown to the user. To be implemented much later.
-public class CheckersGUI extends JFrame {
+public class CheckersGUI extends JFrame implements ActionListener{
 
 	private static final int gameWidth = 1500;
 	private static final int gameHeight = 1300;
@@ -16,6 +24,16 @@ public class CheckersGUI extends JFrame {
 	private GraphicView graphicView;
 	private CheckersGame theGame;
 	private JPanel currentView;
+	private JPanel movePanel; 
+	private JTextField moveFromX;
+	private JTextField moveFromY;
+	private JTextField moveToX;
+	private JTextField moveToY;
+	private JLabel x1Label;
+	private JLabel y1Label;
+	private JLabel x2Label;
+	private JLabel y2Label;
+	private JButton makeMove;
 
 	public static void main(String[] args) {
 		CheckersGUI g = new CheckersGUI();
@@ -33,6 +51,9 @@ public class CheckersGUI extends JFrame {
 		graphicView = new GraphicView(theGame);
 		this.setFocusable(true);
 		addObservers();
+		
+		
+		
 		// Set default view
 		setViewTo(textView); // Game starts out in text view.
 	}
@@ -46,6 +67,38 @@ public class CheckersGUI extends JFrame {
 	// Initialize the game for the first time.
 	private void initializeGameForTheFirstTime() {
 		theGame = new CheckersGame(8, 8);
+		movePanel = new JPanel();
+		movePanel.setSize(300, 150);
+		movePanel.setLocation(900, 600);
+		movePanel.setBackground(Color.PINK);
+		 
+		makeMove = new JButton("Make Move");
+		makeMove.addActionListener(this);
+		x1Label = new JLabel("X coord to move from");
+		y1Label = new JLabel("Y coord to move from");
+		x2Label = new JLabel("X coord to move to");
+		y2Label = new JLabel("Y coord to move to");
+		
+		moveFromX = new JTextField();
+		moveFromX.setPreferredSize(new Dimension(150, 20));
+		moveFromY = new JTextField();
+		moveFromY.setPreferredSize(new Dimension(150, 20));
+		moveToX = new JTextField();
+		moveToX.setPreferredSize(new Dimension(150, 20));
+		moveToY = new JTextField();
+		moveToY.setPreferredSize(new Dimension(150, 20));
+		
+		movePanel.add(x1Label);
+		movePanel.add(moveFromX);
+		movePanel.add(y1Label);
+		movePanel.add(moveFromY);
+		movePanel.add(x2Label);
+		movePanel.add(moveToX);
+		movePanel.add(y2Label);
+		movePanel.add(moveToY);
+		movePanel.add(makeMove);
+		
+		this.add(movePanel);
 	}
 
 	// Set the game view.
@@ -56,5 +109,15 @@ public class CheckersGUI extends JFrame {
 		add(currentView);
 		currentView.repaint();
 		validate();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		int x1 = Integer.parseInt(moveFromX.getText());
+		int y1 = Integer.parseInt(moveFromY.getText());
+		int x2 = Integer.parseInt(moveToX.getText());
+		int y2 = Integer.parseInt(moveToY.getText());
+		theGame.ExecuteMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
+		textView.updateFields();
 	}
 }

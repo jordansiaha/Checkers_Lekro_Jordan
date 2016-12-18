@@ -9,11 +9,14 @@ public class CheckersGame extends Observable {
 	private Player p1;
 	private Player p2;
 	private GameBoard gameBoard;
+	private int currentPlayerMove = 1; // Keep track of whose move it is. odd for player 1 even for player 2.
 	
 	// Checkers board size will be dynamic.
 	public CheckersGame(int width, int height){
 		this.height = height;
 		this.width = width;
+		p1 = new Player(gameBoard);
+		p2 = new Player(gameBoard);
 		initializeGameBoard();
 		setChanged();
 		notifyObservers();
@@ -22,6 +25,21 @@ public class CheckersGame extends Observable {
 	// Return textual representation of the current game state.
 	public String toString(){
 		return gameBoard.toString();
+	}
+	// Return the player who has the current turn.
+	public Player getCurrentPlayer(){
+		if(currentPlayerMove % 2 == 0){
+			return p2;
+		}
+		else{
+			return p1;
+		}
+	}
+	public void ExecuteMove(Player p, int x1, int y1, int x2, int y2){
+		p.makeAMove(gameBoard, x1, y1, x2, y2);
+		currentPlayerMove += 1; // Other player's turn.
+		setChanged();
+		notifyObservers();
 	}
 	
 	private void initializeGameBoard(){

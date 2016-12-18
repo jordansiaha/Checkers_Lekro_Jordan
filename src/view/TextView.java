@@ -1,21 +1,25 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Observable;
 
 import java.util.Observer;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import model.CheckersGame;
 
 // Text representation of the game. Will use this earlier than Graphic view.
-public class TextView extends JPanel implements Observer {
+public class TextView extends JPanel implements Observer{
 
 	private CheckersGame game;
-	public JTextArea gameArea;
+	private JTextArea gameArea;
+	
 	private static int height = 850;
 	private static int width = 700;
 
@@ -43,6 +47,8 @@ public class TextView extends JPanel implements Observer {
 		this.setLayout(null);
 		this.add(gameArea); // Add the game area to the JPanel.
 		gameArea.setEditable(false); // For weird people who try to edit the textArea Lol.
+		
+		
 		
 	}
 	// Update the textual representation of the game.
