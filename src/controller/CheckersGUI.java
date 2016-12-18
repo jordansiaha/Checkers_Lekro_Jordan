@@ -55,7 +55,7 @@ public class CheckersGUI extends JFrame implements ActionListener{
 		
 		
 		// Set default view
-		setViewTo(textView); // Game starts out in text view.
+		setViewTo(graphicView); // Game starts out in text view.
 	}
 
 	// Add observers to the game.

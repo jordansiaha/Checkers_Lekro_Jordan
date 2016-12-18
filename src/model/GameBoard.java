@@ -170,6 +170,14 @@ public class GameBoard {
 		return ret.substring(0, ret.length());
 	}
 	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
 	/**
 	 * Throws an IndexOutOfBoundsException if (x, y) are not within this game board.
 	 * @param x

@@ -1,11 +1,12 @@
 package model;
 
+import java.awt.Color;
 import java.util.Observable;
 
 // Fully implement the game of Checkers.
 public class CheckersGame extends Observable {
-	private static int height ;
-	private static int width ;
+	private int height ;
+	private int width ;
 	private Player p1;
 	private Player p2;
 	private GameBoard gameBoard;
@@ -15,8 +16,8 @@ public class CheckersGame extends Observable {
 	public CheckersGame(int width, int height){
 		this.height = height;
 		this.width = width;
-		p1 = new Player(gameBoard);
-		p2 = new Player(gameBoard);
+		p1 = new Player(gameBoard, Color.BLACK);
+		p2 = new Player(gameBoard, Color.RED);
 		initializeGameBoard();
 		setChanged();
 		notifyObservers();
@@ -34,6 +35,10 @@ public class CheckersGame extends Observable {
 		else{
 			return p1;
 		}
+	}
+	
+	public GameBoard getBoard() {
+		return gameBoard;
 	}
 	public void executeMove(Player p, int x1, int y1, int x2, int y2){
 		p.makeAMove(gameBoard, x1, y1, x2, y2);

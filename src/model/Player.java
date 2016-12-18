@@ -1,17 +1,29 @@
 package model;
 
+import java.awt.Color;
+
 public class Player {
 
 	private GameBoard board;
 	private boolean isTurn;
+	private Color color;
 	// Each player should know which board they belong to.
-	public Player(GameBoard board){
+	public Player(GameBoard board, Color color){
 		this.board = board;
+		this.color = color;
 	}
 	
 	// Is it your turn?
 	public boolean isTurn(){
 		return isTurn;
+	}
+	
+	/**
+	 * Color in which pieces which belong to this player will be rendered
+	 * @return
+	 */
+	public Color getColor() {
+		return color;
 	}
 	
 	// Change player turn.
