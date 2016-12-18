@@ -10,8 +10,8 @@ import view.TextView;
 // Controller class, decides which view is shown to the user. To be implemented much later.
 public class CheckersGUI extends JFrame {
 
-	private static final int gameWidth = 1100;
-	private static final int gameHeight = 1000;
+	private static final int gameWidth = 1500;
+	private static final int gameHeight = 1300;
 	private TextView textView;
 	private GraphicView graphicView;
 	private CheckersGame theGame;

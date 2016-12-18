@@ -16,7 +16,7 @@ public class TextView extends JPanel implements Observer {
 
 	private CheckersGame game;
 	public JTextArea gameArea;
-	private static int height = 700;
+	private static int height = 850;
 	private static int width = 700;
 
 	@Override

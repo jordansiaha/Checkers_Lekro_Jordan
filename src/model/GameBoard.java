@@ -159,7 +159,7 @@ public class GameBoard {
 		// Allocate exactly how much we need so the StringBuilder doesn't need to resize
 		StringBuilder ret = new StringBuilder(width*height + height);
 		for (int j = height - 1; j >= 0; j--) {
-			ret.append("\n\n\n");
+			ret.append("\n\n");
 			for (int i = 0; i < width; i++) {
 				ret.append("     ");
 				GamePiece p = gameBoard[i][j];
