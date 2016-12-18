@@ -18,8 +18,11 @@ import view.TextView;
 // Controller class, decides which view is shown to the user. To be implemented much later.
 public class CheckersGUI extends JFrame implements ActionListener{
 
-	private static final int gameWidth = 1500;
-	private static final int gameHeight = 1300;
+	private static final String GAME_NAME = "Baka-Checkers";
+	private static final String GAME_VERSION = "0.0.1";
+	
+	private static final int gameWidth = 1280;
+	private static final int gameHeight = 720;
 	private TextView textView;
 	private GraphicView graphicView;
 	private CheckersGame theGame;
@@ -43,8 +46,8 @@ public class CheckersGUI extends JFrame implements ActionListener{
 	public CheckersGUI() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(gameWidth, gameHeight);
-		this.setLocation(100, 10);
-		this.setTitle("Checkers Game");
+		this.setLocation(200, 200);
+		this.setTitle(GAME_NAME + " " + GAME_VERSION);
 
 		initializeGameForTheFirstTime();
 		textView = new TextView(theGame);
@@ -69,7 +72,7 @@ public class CheckersGUI extends JFrame implements ActionListener{
 		theGame = new CheckersGame(8, 8);
 		movePanel = new JPanel();
 		movePanel.setSize(300, 150);
-		movePanel.setLocation(900, 600);
+		movePanel.setLocation(900, 300);
 		movePanel.setBackground(Color.PINK);
 		 
 		makeMove = new JButton("Make Move");
