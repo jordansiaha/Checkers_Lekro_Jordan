@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -101,7 +102,7 @@ public class CheckersGUI extends JFrame implements ActionListener{
 		movePanel.add(moveToY);
 		movePanel.add(makeMove);
 		
-		this.add(movePanel);
+		this.add(movePanel, BorderLayout.SOUTH);
 	}
 
 	// Set the game view.

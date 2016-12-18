@@ -18,6 +18,7 @@ public class GraphicView extends JPanel implements Observer{
 	private CheckersGame game;
 	@Override
 	public void update(Observable o, Object arg) {
+		revalidate();
 		repaint();
 	}
 	
@@ -27,7 +28,12 @@ public class GraphicView extends JPanel implements Observer{
 	
 	@Override
 	public void paintComponent(Graphics ga) {
+		
+		super.paintComponent(ga); // Bind ga parameter to paintComponent's superclasse's graphics object instead
+									// This prevents the repainting of objects elsewhere within the graphics panel.
+		
 		Graphics2D g = (Graphics2D) ga;
+		
 		
 		int borderSize = 32;
 		int tileSize = 72;
