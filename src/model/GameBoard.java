@@ -167,7 +167,7 @@ public class GameBoard {
 				else ret.append(p.getCharacterRepresentation());
 			}
 		}
-		return ret.substring(0, ret.length() - 1);
+		return ret.substring(0, ret.length());
 	}
 	
 	/**
