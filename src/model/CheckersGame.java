@@ -64,4 +64,7 @@ public class CheckersGame extends Observable {
 		}
 	}
 	
+	public boolean isGameOver(){
+		return p1.getPiecesCount() == 0 || p2.getPiecesCount() == 0;
+	}
 }

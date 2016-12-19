@@ -21,7 +21,7 @@ public class TextView extends JPanel implements Observer{
 	private JTextArea gameArea;
 	
 	private static int height = 850;
-	private static int width = 700;
+	private static int width = 450;
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -41,7 +41,7 @@ public class TextView extends JPanel implements Observer{
 		gameArea.setForeground(Color.WHITE);
 
 		gameArea.setSize(width, height);
-		gameArea.setLocation(100, 90);
+		gameArea.setLocation(100, 15);
 		
 		gameArea.setFont(new Font("Courier", Font.BOLD, 24));
 		this.setLayout(null);

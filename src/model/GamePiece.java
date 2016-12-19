@@ -43,10 +43,8 @@ public abstract class GamePiece {
 		this.player = player;
 	}
 	
-	public boolean isValidMove(int x, int y){
-		// TODO
-		return false;
-	}
 	
 	public abstract char getCharacterRepresentation();
+	public abstract boolean isCapturable(GamePiece piece);
+	public abstract boolean isLegalMove(GameBoard board, int x1, int y1, int x2, int y2);
 }
