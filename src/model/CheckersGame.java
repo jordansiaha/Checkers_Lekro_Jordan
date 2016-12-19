@@ -16,9 +16,9 @@ public class CheckersGame extends Observable {
 	public CheckersGame(int width, int height){
 		this.height = height;
 		this.width = width;
-		initializeGameBoard();
 		p1 = new Player(gameBoard, Color.BLACK);
 		p2 = new Player(gameBoard, Color.RED);
+		initializeGameBoard();
 		setChanged();
 		notifyObservers();
 	}
