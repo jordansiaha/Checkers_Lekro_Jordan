@@ -48,6 +48,7 @@ public class Player {
 		if (board.get(x1, y1) != null) {
 			p = board.get(x1, y1);
 
+			// Does this piece belong to me?
 			if (p.getPlayer() == this) {
 				// Move piece to desired location.
 				board.put(p, x2, y2);

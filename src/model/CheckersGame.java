@@ -16,9 +16,9 @@ public class CheckersGame extends Observable {
 	public CheckersGame(int width, int height){
 		this.height = height;
 		this.width = width;
+		initializeGameBoard();
 		p1 = new Player(gameBoard, Color.BLACK);
 		p2 = new Player(gameBoard, Color.RED);
-		initializeGameBoard();
 		setChanged();
 		notifyObservers();
 	}
@@ -66,5 +66,13 @@ public class CheckersGame extends Observable {
 	
 	public boolean isGameOver(){
 		return p1.getPiecesCount() == 0 || p2.getPiecesCount() == 0;
+	}
+	
+	public void resetGame(){
+		initializeGameBoard();
+		p1 = new Player(gameBoard, Color.BLACK);
+		p2 = new Player(gameBoard, Color.RED);
+		setChanged();
+		notifyObservers();
 	}
 }
