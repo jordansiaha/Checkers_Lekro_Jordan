@@ -27,6 +27,13 @@ public class CheckersPiece extends GamePiece{
 	public boolean isLegalMove(int x1, int y1, int x2, int y2) {
 		
 		if (!getBoard().isValidLocation(x2, y2)) return false;
+		byte dir = getPlayer().getDirectionality();
+
+		if (!isKing()) {
+			if (x2 > x1 && dir == Player.NEGATIVE_Y || x1 > x2 && dir == Player.POSITIVE_Y)
+			return false; // only kings can go back
+		}
+		
 		// If we are attempting to move two spaces across a diagonal:
 		if (Math.abs(y2 - y1) == 2 && Math.abs(x2-x1) == 2) {
 			// Get the piece we are trying to capture:
@@ -42,15 +49,19 @@ public class CheckersPiece extends GamePiece{
 		// Otherwise, we can only move once, but only if we cannot jump.
 		if (canJump(x1, y1)) return false;
 		if (Math.abs(y2 - y1) != 1 || Math.abs(x2-x1) != 1) return false; // move diagonally
-		if (x2 == x1 - 1 && !isKing()) return false; // only kings can go back
 		return true;
 	}
 	
 	public boolean canJump(int x, int y) {
-		if (isLegalMove(x, y, x+2, y+2)) return true;
-		if (isLegalMove(x, y, x+2, y-2)) return true;
-		if (isLegalMove(x, y, x-2, y+2)) return true;
-		if (isLegalMove(x, y, x-2, y-2)) return true;
+		byte dir = getPlayer().getDirectionality();
+		if (isKing() || dir == Player.POSITIVE_Y) {
+			if (isLegalMove(x, y, x+2, y+2)) return true;
+			if (isLegalMove(x, y, x-2, y+2)) return true;
+		}
+		if (isKing() || dir == Player.NEGATIVE_Y) {
+			if (isLegalMove(x, y, x+2, y-2)) return true;
+			if (isLegalMove(x, y, x-2, y-2)) return true;
+		}
 		return false;
 	}
 	

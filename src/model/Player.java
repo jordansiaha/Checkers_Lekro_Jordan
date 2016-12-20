@@ -4,13 +4,19 @@ import java.awt.Color;
 
 public class Player {
 
+	public static final byte POSITIVE_Y = 1;
+	public static final byte NEGATIVE_Y = -1;
+	public static final byte POSITIVE_X = 2;
+	public static final byte NEGATIVE_X = -2;
+	
 	private GameBoard board;
 	private boolean isTurn;
 	private Color color;
 	private int piecesCount = 8;
+	private byte directionality;
 
 	// Each player should know which board they belong to.
-	public Player(GameBoard board, Color color) {
+	public Player(GameBoard board, Color color, byte directionality) {
 		this.board = board;
 		this.color = color;
 	}
@@ -61,5 +67,13 @@ public class Player {
 
 			System.out.println("Please select a valid Checkers piece");
 		}
+	}
+	
+	public byte getDirectionality() {
+		return directionality;
+	}
+	
+	public void setDirectionality(byte newDirectionality) {
+		directionality = newDirectionality;
 	}
 }
