@@ -193,6 +193,16 @@ public class GameBoard {
 	}
 	
 	/**
+	 * Checks if (x, y) is a valid location
+	 * @param vec - 2d vector of location
+	 */
+	public boolean isValidLocation(int[] vec) {
+
+		return isValidLocation(vec[0], vec[1]);
+		
+	}
+	
+	/**
 	 * Throws an IndexOutOfBoundsException if (x, y) are not within this game board.
 	 * @param x
 	 * @param y

@@ -1,7 +1,9 @@
 package model;
 
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.Observable;
+import java.util.Set;
 
 // Fully implement the game of Checkers.
 public class CheckersGame extends Observable {
@@ -74,5 +76,25 @@ public class CheckersGame extends Observable {
 		initializeGameBoard();
 		setChanged();
 		notifyObservers();
+	}
+	
+	public Set<int[]> getValidPieces(Player p) {
+		Set<int[]> playerPieces = new HashSet<>();
+		Set<int[]> skipPieces = new HashSet<>();
+		
+		for (int i = 0; i < gameBoard.getWidth(); i++) {
+			for (int j = 0; j < gameBoard.getHeight(); j++) {
+				CheckersPiece piece = (CheckersPiece) gameBoard.get(i, j);
+				if (piece == null) continue;
+				if (piece.getPlayer() == p) {
+					if (!(piece.canJump(i, j) || piece.canWalk(i, j))) continue;
+					playerPieces.add(new int[] {i, j});
+					if (piece.canJump(i, j)) skipPieces.add(new int[] {i, j});
+				}
+			}
+		}
+		
+		if (skipPieces.size() == 0) return playerPieces;
+		else return skipPieces;
 	}
 }

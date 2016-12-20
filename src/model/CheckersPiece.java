@@ -27,18 +27,18 @@ public class CheckersPiece extends GamePiece{
 		byte dir = getPlayer().getDirectionality();
 
 		if (!isKing()) {
-			if (x2 > x1 && dir == Player.NEGATIVE_Y || x1 > x2 && dir == Player.POSITIVE_Y)
+			if (y2 > y1 && dir == Player.NEGATIVE_Y || y1 > y2 && dir == Player.POSITIVE_Y)
 			return false; // only kings can go back
 		}
+		// Get the tile we will finally land on
+		GamePiece fin = getBoard().get(x2, y2);
+		// Check if final tile is null (empty)
+		if (fin != null) return false;
 		
 		// If we are attempting to move two spaces across a diagonal:
 		if (Math.abs(y2 - y1) == 2 && Math.abs(x2-x1) == 2) {
 			// Get the piece we are trying to capture:
 			GamePiece target = getBoard().get((x1+x2)/2,(y1+y2)/2);
-			// Get the tile we will finally land on
-			GamePiece fin = getBoard().get(x2, y2);
-			// Check if final tile is null (empty)
-			if (fin != null) return false;
 			// Check if we can actually capture piece in the middle.
 			if (target != null && this.isCapturable(target)) return true;
 			return false;
@@ -58,6 +58,19 @@ public class CheckersPiece extends GamePiece{
 		if (isKing() || dir == Player.NEGATIVE_Y) {
 			if (isLegalMove(x, y, x+2, y-2)) return true;
 			if (isLegalMove(x, y, x-2, y-2)) return true;
+		}
+		return false;
+	}
+	
+	public boolean canWalk(int x, int y) {
+		byte dir = getPlayer().getDirectionality();
+		if (isKing() || dir == Player.POSITIVE_Y) {
+			if (isLegalMove(x, y, x+1, y+1)) return true;
+			if (isLegalMove(x, y, x-1, y+1)) return true;
+		}
+		if (isKing() || dir == Player.NEGATIVE_Y) {
+			if (isLegalMove(x, y, x+1, y-1)) return true;
+			if (isLegalMove(x, y, x-1, y-1)) return true;
 		}
 		return false;
 	}
