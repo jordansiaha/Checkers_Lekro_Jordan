@@ -143,10 +143,14 @@ public class GraphicView extends JPanel implements Observer, MouseListener {
 			}
 		}
 		else if (selectedLocation != null) {
-			if (!game.getBoard().get(selectedLocation).isLegalMove(selectedLocation[0], selectedLocation[1], vec[0], vec[1]))
-				return; // if illegal don't do it
-			
-			game.executeMove(game.getCurrentPlayer(), selectedLocation[0], selectedLocation[1], vec[0], vec[1]);
+			if (!game.getBoard().get(selectedLocation).isLegalMove(selectedLocation[0], selectedLocation[1], vec[0], vec[1])) {
+
+				selectedLocation = null; // if illegal don't do it
+				revalidate();
+				repaint();
+			}
+			else
+				game.executeMove(game.getCurrentPlayer(), selectedLocation[0], selectedLocation[1], vec[0], vec[1]);
 			
 		}
 	}
