@@ -16,10 +16,7 @@ public class CheckersPiece extends GamePiece{
 	// Return whether this checkers piece can capture the other piece passed as a parameter.
 	@Override
 	public boolean isCapturable(GamePiece p) {
-		if(this.getPlayer().equals(p.getPlayer())){
-			return false;
-		}
-		return true;
+		return !this.getPlayer().equals(p.getPlayer());
 	}
 
 	@Override

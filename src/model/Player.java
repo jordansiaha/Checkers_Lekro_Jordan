@@ -19,6 +19,7 @@ public class Player {
 	public Player(GameBoard board, Color color, byte directionality) {
 		this.board = board;
 		this.color = color;
+		this.directionality = directionality;
 	}
 
 	public int getPiecesCount() {
