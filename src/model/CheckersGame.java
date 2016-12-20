@@ -87,6 +87,7 @@ public class CheckersGame extends Observable {
 				CheckersPiece piece = (CheckersPiece) gameBoard.get(i, j);
 				if (piece == null) continue;
 				if (piece.getPlayer() == p) {
+					piece.setBoard(gameBoard); // TODO this line prevents NPE but why??
 					if (!(piece.canJump(i, j) || piece.canWalk(i, j))) continue;
 					playerPieces.add(new int[] {i, j});
 					if (piece.canJump(i, j)) skipPieces.add(new int[] {i, j});
