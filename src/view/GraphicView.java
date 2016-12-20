@@ -66,17 +66,7 @@ public class GraphicView extends JPanel implements Observer, MouseListener {
 		
 		Color darkTile = new Color(0xff, 0xda, 0xb2);
 		Color lightTile = new Color(0xa0, 0x6c, 0x30);
-		
-		// Draw the board completely red, then fill in black squares
-		g.setColor(lightTile);
-		g.fillRect(xPos, yPos, tileSize * rows, tileSize * cols);
-		g.setColor(darkTile);
-		for (int i = 0; i < cols; i++)  {
-			for (int j = 0; j < rows; j++) {
-				if ((i+j) % 2 == 0) continue;
-				g.fillRect(xPos + j * tileSize, yPos + i * tileSize, tileSize, tileSize);
-			}
-		}
+		drawChessBoard(g, xPos, yPos, tileSize, rows, cols, lightTile, darkTile);
 		
 		GameBoard board = game.getBoard();
 		
@@ -115,6 +105,44 @@ public class GraphicView extends JPanel implements Observer, MouseListener {
 			}
 		}
 		
+	}
+	
+	private void drawChessBoard(Graphics2D g, int x, int y, int tileSize, int rows, int cols, Color color1, Color color2) {
+		// Draw the board completely red, then fill in black squares
+		g.setColor(color1);
+		g.fillRect(x, y, tileSize * rows, tileSize * cols);
+		g.setColor(color2);
+		for (int i = 0; i < cols; i++)  {
+			for (int j = 0; j < rows; j++) {
+				if ((i+j) % 2 == 0) continue;
+				g.fillRect(x + j * tileSize, y + i * tileSize, tileSize, tileSize);
+			}
+		}
+	}
+	
+	private void drawShogiBoard(Graphics2D g, int x, int y, int tileSize, int rows, int cols, Color color1, Color color2) {
+		// Draw the board completely red, then fill in black squares
+		g.setColor(color2);
+		g.fillRect(x, y, tileSize * rows, tileSize * cols);
+		g.setColor(color1);
+		for (int i = 0; i < cols; i++)  {
+			for (int j = 0; j < rows; j++) {
+				g.drawRect(x + j * tileSize, y + i * tileSize, tileSize, tileSize);
+			}
+		}
+	}
+	
+	private void drawGoBoard(Graphics2D g, int x, int y, int tileSize, int rows, int cols, Color color1, Color color2) {
+		// Draw the board completely red, then fill in black squares
+		g.setColor(color2);
+		g.fillRect(x, y, tileSize * rows, tileSize * cols);
+		g.setColor(color1);
+		for (int i = 0; i < cols; i++)  {
+			g.drawLine(x + i * tileSize + tileSize / 2, y, x + i * tileSize + tileSize / 2, y + tileSize * rows);
+		}
+		for (int i = 0; i < rows; i++) {
+			g.drawLine(x, y + i * tileSize + tileSize / 2, x + tileSize * cols, y + i * tileSize + tileSize / 2);
+		}
 	}
 	
 	private int[] getTileVector(int x, int y) {
