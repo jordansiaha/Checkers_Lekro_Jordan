@@ -179,6 +179,20 @@ public class GameBoard {
 	}
 	
 	/**
+	 * Checks if (x, y) is a valid location
+	 * @param x
+	 * @param y
+	 */
+	public boolean isValidLocation(int x, int y) {
+
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			return false;
+		}
+		return true;
+		
+	}
+	
+	/**
 	 * Throws an IndexOutOfBoundsException if (x, y) are not within this game board.
 	 * @param x
 	 * @param y

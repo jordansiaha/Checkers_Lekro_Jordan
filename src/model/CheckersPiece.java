@@ -24,13 +24,43 @@ public class CheckersPiece extends GamePiece{
 
 	@Override
 	// Is this a legal move on this game board?
-	public boolean isLegalMove(GameBoard board, int x1, int y1, int x2, int y2) {
-		// TODO
+	public boolean isLegalMove(int x1, int y1, int x2, int y2) {
+		
+		if (!getBoard().isValidLocation(x2, y2)) return false;
+		// If we are attempting to move two spaces across a diagonal:
+		if (Math.abs(y2 - y1) == 2 && Math.abs(x2-x1) == 2) {
+			// Get the piece we are trying to capture:
+			GamePiece target = getBoard().get((x1+x2)/2,(y1+y2)/2);
+			// Get the tile we will finally land on
+			GamePiece fin = getBoard().get(x2, y2);
+			// Check if final tile is null (empty)
+			if (fin != null) return false;
+			// Check if we can actually capture piece in the middle.
+			if (target != null && this.isCapturable(target)) return true;
+			return false;
+		}
+		// Otherwise, we can only move once, but only if we cannot jump.
+		if (canJump(x1, y1)) return false;
+		if (Math.abs(y2 - y1) != 1 || Math.abs(x2-x1) != 1) return false; // move diagonally
+		if (x2 == x1 - 1 && !isKing()) return false; // only kings can go back
+		return true;
+	}
+	
+	public boolean canJump(int x, int y) {
+		if (isLegalMove(x, y, x+2, y+2)) return true;
+		if (isLegalMove(x, y, x+2, y-2)) return true;
+		if (isLegalMove(x, y, x-2, y+2)) return true;
+		if (isLegalMove(x, y, x-2, y-2)) return true;
 		return false;
 	}
+	
 	// Turn a checkers piece into a king.
 	public void makeKing(){
 		isKing = true;
+	}
+	
+	public boolean isKing() {
+		return isKing;
 	}
 	
 }
