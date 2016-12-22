@@ -49,9 +49,11 @@ public class Player {
 	// For now, moves will be made by entering exact coordinates.
 	// Right now, there are no rules to moving pieces, so players can just move
 	// their pieces anywhere within the board.
-	public void makeAMove(GameBoard board, int x1, int y1, int x2, int y2) {
+	// Returns: the piece which made a capture, or null
+	public GamePiece makeAMove(GameBoard board, int x1, int y1, int x2, int y2) {
 		// First get the piece to be moved.
 		GamePiece p = null;
+		GamePiece ret = null;
 
 		if (board.get(x1, y1) != null) {
 			p = board.get(x1, y1);
@@ -67,15 +69,15 @@ public class Player {
 						// Get the piece we are trying to capture:
 						GamePiece target = board.get((x1+x2)/2,(y1+y2)/2);
 						// Check if we can actually capture piece in the middle.
-						if (target != null && p.isCapturable(target)){
+						if (target != null && p.canCapture(target)){
 							target.getPlayer().decreasePiecesCount();
 							board.remove((x1+x2)/2,(y1+y2)/2);
-							
+							ret = p;
 						}
 					}
 				}
-				board.put(p, x2, y2);
 				board.remove(x1, y1);
+				board.put(p, x2, y2);
 			} else {
 				System.out.println("This piece doesn't belong to you!");
 			}
@@ -83,6 +85,7 @@ public class Player {
 
 			System.out.println("Please select a valid Checkers piece");
 		}
+		return ret;
 	}
 
 	public byte getDirectionality() {

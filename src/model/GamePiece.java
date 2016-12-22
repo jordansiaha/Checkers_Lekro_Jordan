@@ -45,6 +45,6 @@ public abstract class GamePiece {
 	
 	
 	public abstract char getCharacterRepresentation();
-	public abstract boolean isCapturable(GamePiece piece);
+	public abstract boolean canCapture(GamePiece piece);
 	public abstract boolean isLegalMove(int x1, int y1, int x2, int y2);
 }

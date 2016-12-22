@@ -3,6 +3,8 @@ package model;
 public class CheckersPiece extends GamePiece{
 
 	private boolean isKing = false;
+	private boolean isMulticapturing = false;
+	
 	public CheckersPiece(Player player, GameBoard board) {
 		super(player, board);
 	}
@@ -15,7 +17,7 @@ public class CheckersPiece extends GamePiece{
 
 	// Return whether this checkers piece can capture the other piece passed as a parameter.
 	@Override
-	public boolean isCapturable(GamePiece p) {
+	public boolean canCapture(GamePiece p) {
 		return !this.getPlayer().equals(p.getPlayer());
 	}
 
@@ -35,7 +37,7 @@ public class CheckersPiece extends GamePiece{
 			// Get the piece we are trying to capture:
 			GamePiece target = getBoard().get((x1+x2)/2,(y1+y2)/2);
 			// Check if we can actually capture piece in the middle.
-			if ((target != null && this.isCapturable(target))){
+			if ((target != null && this.canCapture(target))){
 				//getBoard().remove((x1+x2)/2,(y1+y2)/2);
 				return true;
 			}
@@ -48,6 +50,7 @@ public class CheckersPiece extends GamePiece{
 		}
 		// Otherwise, we can only move once, but only if we cannot jump.
 		//if (canJump(x1, y1)) return false;
+		if (isMulticapturing()) return false; // multicapturing pieces must capture
 		if (Math.abs(y2 - y1) != 1 || Math.abs(x2-x1) != 1) return false; // move diagonally
 		return true;
 	}
@@ -91,6 +94,14 @@ public class CheckersPiece extends GamePiece{
 	
 	public boolean isKing() {
 		return isKing;
+	}
+
+	public boolean isMulticapturing() {
+		return isMulticapturing;
+	}
+
+	public void setMulticapturing(boolean isMulticapturing) {
+		this.isMulticapturing = isMulticapturing;
 	}
 	
 }

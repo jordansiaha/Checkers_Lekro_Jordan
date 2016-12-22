@@ -13,6 +13,7 @@ public class CheckersGame extends Observable {
 	private Player p2;
 	private GameBoard gameBoard;
 	private int currentPlayerMove = 1; // Keep track of whose move it is. odd for player 1 even for player 2.
+	private CheckersPiece multicapture;
 	
 	// Checkers board size will be dynamic.
 	public CheckersGame(int width, int height){
@@ -43,8 +44,17 @@ public class CheckersGame extends Observable {
 		return gameBoard;
 	}
 	public void executeMove(Player p, int x1, int y1, int x2, int y2){
-		p.makeAMove(gameBoard, x1, y1, x2, y2);
-		currentPlayerMove += 1; // Other player's turn.
+		if (multicapture != null) {
+			multicapture.setMulticapturing(false);
+			multicapture = null;
+		}
+		CheckersPiece captured = (CheckersPiece) p.makeAMove(gameBoard, x1, y1, x2, y2);
+		if (captured == null || !captured.canJump(x2, y2)) 
+			currentPlayerMove += 1; // Other player's turn.
+		else {
+			multicapture = captured;
+			multicapture.setMulticapturing(true);
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -79,6 +89,13 @@ public class CheckersGame extends Observable {
 	}
 	
 	public Set<int[]> getValidPieces(Player p) {
+		
+		if (multicapture != null) {
+			Set<int[]> mul = new HashSet<>();
+			mul.add(getBoard().getCoordinates(multicapture));
+			return mul;
+		}
+		
 		Set<int[]> playerPieces = new HashSet<>();
 		Set<int[]> skipPieces = new HashSet<>();
 		
@@ -87,7 +104,6 @@ public class CheckersGame extends Observable {
 				CheckersPiece piece = (CheckersPiece) gameBoard.get(i, j);
 				if (piece == null) continue;
 				if (piece.getPlayer() == p) {
-					piece.setBoard(gameBoard); // TODO this line prevents NPE but why??
 					if (!(piece.canJump(i, j) || piece.canWalk(i, j))) continue;
 					playerPieces.add(new int[] {i, j});
 					if (piece.canJump(i, j)) skipPieces.add(new int[] {i, j});
