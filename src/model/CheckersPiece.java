@@ -25,11 +25,6 @@ public class CheckersPiece extends GamePiece{
 		
 		if (!getBoard().isValidLocation(x2, y2)) return false;
 		byte dir = getPlayer().getDirectionality();
-
-		if (!isKing()) {
-			if (y2 > y1 && dir == Player.NEGATIVE_Y || y1 > y2 && dir == Player.POSITIVE_Y)
-			return false; // only kings can go back
-		}
 		// Get the tile we will finally land on
 		GamePiece fin = getBoard().get(x2, y2);
 		// Check if final tile is null (empty)
@@ -46,6 +41,11 @@ public class CheckersPiece extends GamePiece{
 			}
 			return false;
 		}
+
+		if (!isKing()) {
+			if (y2 > y1 && dir == Player.NEGATIVE_Y || y1 > y2 && dir == Player.POSITIVE_Y)
+			return false; // only kings can go back
+		}
 		// Otherwise, we can only move once, but only if we cannot jump.
 		if (canJump(x1, y1)) return false;
 		if (Math.abs(y2 - y1) != 1 || Math.abs(x2-x1) != 1) return false; // move diagonally
@@ -53,15 +53,10 @@ public class CheckersPiece extends GamePiece{
 	}
 	
 	public boolean canJump(int x, int y) {
-		byte dir = getPlayer().getDirectionality();
-		if (isKing() || dir == Player.POSITIVE_Y) {
 			if (isLegalMove(x, y, x+2, y+2)) return true;
 			if (isLegalMove(x, y, x-2, y+2)) return true;
-		}
-		if (isKing() || dir == Player.NEGATIVE_Y) {
 			if (isLegalMove(x, y, x+2, y-2)) return true;
 			if (isLegalMove(x, y, x-2, y-2)) return true;
-		}
 		return false;
 	}
 	
