@@ -26,7 +26,7 @@ public class CheckersPiece extends GamePiece{
 	public boolean isLegalMove(int x1, int y1, int x2, int y2) {
 		
 		if (!getBoard().isValidLocation(x2, y2)) return false;
-		byte dir = getPlayer().getDirectionality();
+		byte dir = ((CheckersPlayer)getPlayer()).getDirectionality();
 		// Get the tile we will finally land on
 		GamePiece fin = getBoard().get(x2, y2);
 		// Check if final tile is null (empty)
@@ -45,7 +45,7 @@ public class CheckersPiece extends GamePiece{
 		}
 
 		if (!isKing()) {
-			if (y2 > y1 && dir == Player.NEGATIVE_Y || y1 > y2 && dir == Player.POSITIVE_Y)
+			if (y2 > y1 && dir == CheckersPlayer.NEGATIVE_Y || y1 > y2 && dir == CheckersPlayer.POSITIVE_Y)
 			return false; // only kings can go back
 		}
 		// Otherwise, we can only move once, but only if we cannot jump.
@@ -64,12 +64,12 @@ public class CheckersPiece extends GamePiece{
 	}
 	
 	public boolean canWalk(int x, int y) {
-		byte dir = getPlayer().getDirectionality();
-		if (isKing() || dir == Player.POSITIVE_Y) {
+		byte dir = ((CheckersPlayer) getPlayer()).getDirectionality();
+		if (isKing() || dir == CheckersPlayer.POSITIVE_Y) {
 			if (isLegalMove(x, y, x+1, y+1)) return true;
 			if (isLegalMove(x, y, x-1, y+1)) return true;
 		}
-		if (isKing() || dir == Player.NEGATIVE_Y) {
+		if (isKing() || dir == CheckersPlayer.NEGATIVE_Y) {
 			if (isLegalMove(x, y, x+1, y-1)) return true;
 			if (isLegalMove(x, y, x-1, y-1)) return true;
 		}
@@ -77,11 +77,11 @@ public class CheckersPiece extends GamePiece{
 	}
 	// Return whether a move would turn a piece into a king.
 	public boolean moveWouldMakeAKing(int x1, int y1, int x2, int y2){
-		byte dir = getPlayer().getDirectionality();
-		if(dir == Player.NEGATIVE_Y && y2 == 0){
+		byte dir = ((CheckersPlayer) getPlayer()).getDirectionality();
+		if(dir == CheckersPlayer.NEGATIVE_Y && y2 == 0){
 			return true;
 		}
-		if(dir == Player.POSITIVE_Y && y2 == getBoard().getWidth() - 1){
+		if(dir == CheckersPlayer.POSITIVE_Y && y2 == getBoard().getWidth() - 1){
 			return true;
 		}
 		return false;

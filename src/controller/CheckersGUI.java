@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,11 +18,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.CheckersGame;
+import view.CheckersView;
 import view.GraphicView;
 import view.TextView;
 
 // Controller class, decides which view is shown to the user. To be implemented much later.
-public class CheckersGUI extends JFrame implements ActionListener {
+public class CheckersGUI extends JFrame implements ActionListener, Observer {
 
 	private static final String GAME_NAME = "Baka-Checkers";
 	private static final String GAME_VERSION = "0.0.1";
@@ -28,7 +31,7 @@ public class CheckersGUI extends JFrame implements ActionListener {
 	private static final int gameWidth = 1280;
 	private static final int gameHeight = 720;
 	private TextView textView;
-	private GraphicView graphicView;
+	private GraphicView checkersView;
 	private CheckersGame theGame;
 	private JPanel currentView;
 	private JPanel movePanel;
@@ -42,9 +45,10 @@ public class CheckersGUI extends JFrame implements ActionListener {
 	private JLabel y2Label;
 	private JButton makeMove;
 	private JButton textViewButton;
-	private JButton graphicViewButton;
+	private JButton checkersViewButton;
 	private JPanel viewChangePanel;
 	private JTextArea gameIsOver;
+	private JButton resetButton;
 
 	public static void main(String[] args) {
 		CheckersGUI g = new CheckersGUI();
@@ -53,24 +57,25 @@ public class CheckersGUI extends JFrame implements ActionListener {
 
 	public CheckersGUI() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(gameWidth, gameHeight);
-		this.setLocation(200, 200);
+		this.setSize(gameWidth, gameHeight + 50);
+		this.setLocation(200, 150);
 		this.setTitle(GAME_NAME + " " + GAME_VERSION);
 
 		initializeGameForTheFirstTime();
 		textView = new TextView(theGame);
-		graphicView = new GraphicView(theGame);
+		checkersView = new CheckersView(theGame);
 		this.setFocusable(true);
 		addObservers();
 
 		// Set default view
-		setViewTo(graphicView);
+		setViewTo(checkersView);
 	}
 
 	// Add observers to the game.
 	private void addObservers() {
 		theGame.addObserver(textView);
-		theGame.addObserver(graphicView);
+		theGame.addObserver(checkersView);
+		theGame.addObserver(this);
 	}
 
 	// Initialize the game for the first time.
@@ -79,9 +84,11 @@ public class CheckersGUI extends JFrame implements ActionListener {
 		movePanel = new JPanel();
 		movePanel.setSize(300, 150);
 		movePanel.setLocation(900, 300);
-		movePanel.setBackground(Color.PINK);
+		movePanel.setBackground(Color.BLACK);
 
 		makeMove = new JButton("Make Move");
+		makeMove.setBackground(Color.BLACK);
+		makeMove.setForeground(Color.RED);
 		makeMove.addActionListener(this);
 		x1Label = new JLabel("X coord to move from");
 		y1Label = new JLabel("Y coord to move from");
@@ -89,6 +96,7 @@ public class CheckersGUI extends JFrame implements ActionListener {
 		y2Label = new JLabel("Y coord to move to");
 
 		moveFromX = new JTextField();
+		//moveFromX.setBackground(Color.GRAY);
 		moveFromX.setPreferredSize(new Dimension(150, 20));
 		moveFromY = new JTextField();
 		moveFromY.setPreferredSize(new Dimension(150, 20));
@@ -108,23 +116,28 @@ public class CheckersGUI extends JFrame implements ActionListener {
 		movePanel.add(makeMove);
 
 		viewChangePanel = new JPanel();
-		viewChangePanel.setBackground(Color.RED); // Setting background colors
-													// is a nice way of visually
-													// seeing a panel's bounds.
-													// Especially helpful when
-													// NULL layouts are
-													// involved.
+		viewChangePanel.setBackground(Color.GRAY); 
 		textViewButton = new JButton("Text View");
+		textViewButton.setForeground(Color.RED);
+		textViewButton.setBackground(Color.BLACK);
 		textViewButton.addActionListener(this);
-		graphicViewButton = new JButton("Graphic View");
-		graphicViewButton.addActionListener(this);
+		checkersViewButton = new JButton("Graphic View");
+		checkersViewButton.setForeground(Color.RED);
+		checkersViewButton.setBackground(Color.BLACK);
+		checkersViewButton.addActionListener(this);
+		resetButton = new JButton("RESET");
+		resetButton.setForeground(Color.RED);
+		resetButton.setBackground(Color.BLACK);
+		resetButton.addActionListener(this);
+		
 		viewChangePanel.add(textViewButton);
-		viewChangePanel.add(graphicViewButton);
+		viewChangePanel.add(checkersViewButton);
+		viewChangePanel.add(resetButton);
 		gameIsOver = new JTextArea();
 		gameIsOver.setBackground(Color.GRAY);
 		gameIsOver.setFont(new Font("gothic", Font.ITALIC, 76));
-		gameIsOver.setSize(300,100);
-		gameIsOver.setLocation(650,200);
+		gameIsOver.setSize(300, 100);
+		gameIsOver.setLocation(650, 200);
 		gameIsOver.setForeground(Color.GREEN);
 		gameIsOver.setText(theGame.won());
 		gameIsOver.setFocusable(false);
@@ -146,28 +159,35 @@ public class CheckersGUI extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(theGame.isGameOver()){
+		if (e.getSource() == textViewButton) {
+			setViewTo(textView);
+		} else if (e.getSource() == checkersViewButton) {
+			setViewTo(checkersView);
+		} else if (e.getSource() == resetButton) {
+			theGame.resetGame();
+		} else {
+			if (!moveFromX.getText().isEmpty() && !moveFromY.getText().isEmpty() && !moveToX.getText().isEmpty()
+					&& !moveToY.getText().isEmpty()) {
+				int x1 = Integer.parseInt(moveFromX.getText());
+				int y1 = Integer.parseInt(moveFromY.getText());
+				int x2 = Integer.parseInt(moveToX.getText());
+				int y2 = Integer.parseInt(moveToY.getText());
+				theGame.executeMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
+				moveFromX.setText("");
+				moveFromY.setText("");
+				moveToX.setText("");
+				moveToY.setText("");
+				textView.updateFields();
+			}
+
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (theGame.isGameOver()) {
 			JOptionPane.showMessageDialog(this, theGame.won());
 		}
-			if (e.getSource() == textViewButton) {
-				setViewTo(textView);
-			} else if (e.getSource() == graphicViewButton) {
-				setViewTo(graphicView);
-			} else {
-				if (!moveFromX.getText().isEmpty() && !moveFromY.getText().isEmpty() && !moveToX.getText().isEmpty()
-						&& !moveToY.getText().isEmpty()) {
-					int x1 = Integer.parseInt(moveFromX.getText());
-					int y1 = Integer.parseInt(moveFromY.getText());
-					int x2 = Integer.parseInt(moveToX.getText());
-					int y2 = Integer.parseInt(moveToY.getText());
-					theGame.executeMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
-					moveFromX.setText("");
-					moveFromY.setText("");
-					moveToX.setText("");
-					moveToY.setText("");
-					textView.updateFields();
-				}
-			
-		}
+		
 	}
 }

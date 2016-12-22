@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.CheckersGame;
@@ -36,6 +37,7 @@ public class GraphicView extends JPanel implements Observer, MouseListener {
 	}
 	
 	public GraphicView(CheckersGame game){
+		this.setBackground(Color.BLACK);
 		this.game = game;
 		this.addMouseListener(this);
 		setxPos(32);

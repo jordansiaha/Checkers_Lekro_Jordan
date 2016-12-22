@@ -12,7 +12,7 @@ public class CheckersGame extends Observable {
 	private Player p1;
 	private Player p2;
 	private GameBoard gameBoard;
-	private int currentPlayerMove = 1; // Keep track of whose move it is. odd for player 1 even for player 2.
+	private int currentPlayerMove = 0; // Keep track of whose move it is. odd for player 1 even for player 2.
 	private CheckersPiece multicapture;
 	private String whoWon = "";
 	private boolean gamesOver = false;
@@ -21,8 +21,8 @@ public class CheckersGame extends Observable {
 	public CheckersGame(int width, int height){
 		this.height = height;
 		this.width = width;
-		p1 = new Player(gameBoard, Color.BLACK, Player.POSITIVE_Y);
-		p2 = new Player(gameBoard, Color.RED, Player.NEGATIVE_Y);
+		p1 = new CheckersPlayer(gameBoard, Color.BLACK, CheckersPlayer.POSITIVE_Y);
+		p2 = new CheckersPlayer(gameBoard, Color.RED, CheckersPlayer.NEGATIVE_Y);
 		initializeGameBoard();
 		setChanged();
 		notifyObservers();
@@ -63,6 +63,7 @@ public class CheckersGame extends Observable {
 	}
 	
 	private void initializeGameBoard(){
+		currentPlayerMove = 1;
 		gameBoard = new GameBoard(width, height);
 		
 		// ODDS
@@ -80,8 +81,8 @@ public class CheckersGame extends Observable {
 	}
 	
 	public boolean isGameOver(){
-		System.out.println(p1.getPiecesCount());
-		System.out.println(p2.getPiecesCount());
+		System.out.println(((CheckersPlayer) p1).getPiecesCount());
+		System.out.println(((CheckersPlayer) p2).getPiecesCount());
 		if(p2.lost()){
 			whoWon = "Player one WINS!";
 			gamesOver = true;
@@ -90,8 +91,6 @@ public class CheckersGame extends Observable {
 			whoWon = "Player two WINS!";
 			gamesOver = true;
 		}
-		setChanged();
-		notifyObservers();
 		return gamesOver;
 	}
 	public String won(){
@@ -99,8 +98,10 @@ public class CheckersGame extends Observable {
 	}
 	
 	public void resetGame(){
-		p1 = new Player(gameBoard, Color.BLACK, Player.POSITIVE_Y);
-		p2 = new Player(gameBoard, Color.RED, Player.NEGATIVE_Y);
+		p1 = new CheckersPlayer(gameBoard, Color.BLACK, CheckersPlayer.POSITIVE_Y);
+		p2 = new CheckersPlayer(gameBoard, Color.RED, CheckersPlayer.NEGATIVE_Y);
+		gamesOver = false;
+		whoWon = "";
 		initializeGameBoard();
 		setChanged();
 		notifyObservers();

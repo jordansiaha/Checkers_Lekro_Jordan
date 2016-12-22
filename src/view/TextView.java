@@ -20,7 +20,7 @@ public class TextView extends JPanel implements Observer{
 	private CheckersGame game;
 	private JTextArea gameArea;
 	
-	private static int height = 850;
+	private static int height = 570;
 	private static int width = 450;
 
 	@Override
@@ -30,6 +30,7 @@ public class TextView extends JPanel implements Observer{
 	
 
 	public TextView(CheckersGame game) {
+		this.setBackground(Color.BLACK);
 		this.game = game;
 		
 		initializeTextFields();
