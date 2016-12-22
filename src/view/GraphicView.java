@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.CheckersGame;
@@ -20,7 +18,7 @@ import model.GameBoard;
 import model.GamePiece;
 
 // To be implemented MUCH MUCH later, this will be our fancy visual layout of the game.
-public class GraphicView extends JPanel implements Observer, MouseListener {
+public abstract class GraphicView extends JPanel implements Observer, MouseListener {
 
 	private CheckersGame game;
 	
