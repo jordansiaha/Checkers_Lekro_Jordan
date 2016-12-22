@@ -60,12 +60,17 @@ public class Player {
 			if (p.getPlayer() == this) {
 				// Move piece to desired location.
 				if (p.isLegalMove(x1, y1, x2, y2)) {
+					if(((CheckersPiece) p).moveWouldMakeAKing(x1, y1, x2, y2)){
+						((CheckersPiece) p).makeKing();
+					}
 					if (Math.abs(y2 - y1) == 2 && Math.abs(x2-x1) == 2) {
 						// Get the piece we are trying to capture:
 						GamePiece target = board.get((x1+x2)/2,(y1+y2)/2);
 						// Check if we can actually capture piece in the middle.
 						if (target != null && p.isCapturable(target)){
+							target.getPlayer().decreasePiecesCount();
 							board.remove((x1+x2)/2,(y1+y2)/2);
+							
 						}
 					}
 				}

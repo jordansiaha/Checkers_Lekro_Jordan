@@ -72,6 +72,17 @@ public class CheckersPiece extends GamePiece{
 		}
 		return false;
 	}
+	// Return whether a move would turn a piece into a king.
+	public boolean moveWouldMakeAKing(int x1, int y1, int x2, int y2){
+		byte dir = getPlayer().getDirectionality();
+		if(dir == Player.NEGATIVE_Y && y2 == 0){
+			return true;
+		}
+		if(dir == Player.POSITIVE_Y && y2 == getBoard().getWidth() - 1){
+			return true;
+		}
+		return false;
+	}
 	
 	// Turn a checkers piece into a king.
 	public void makeKing(){
