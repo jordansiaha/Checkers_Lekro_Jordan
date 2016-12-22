@@ -95,7 +95,10 @@ public class CheckersGame extends Observable {
 			}
 		}
 		
+		return playerPieces;
+		/* To restrict players to only capture:
 		if (skipPieces.size() == 0) return playerPieces;
 		else return skipPieces;
+		*/
 	}
 }

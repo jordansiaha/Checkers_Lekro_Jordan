@@ -47,7 +47,7 @@ public class CheckersPiece extends GamePiece{
 			return false; // only kings can go back
 		}
 		// Otherwise, we can only move once, but only if we cannot jump.
-		if (canJump(x1, y1)) return false;
+		//if (canJump(x1, y1)) return false;
 		if (Math.abs(y2 - y1) != 1 || Math.abs(x2-x1) != 1) return false; // move diagonally
 		return true;
 	}
