@@ -14,6 +14,8 @@ public class CheckersGame extends Observable {
 	private GameBoard gameBoard;
 	private int currentPlayerMove = 1; // Keep track of whose move it is. odd for player 1 even for player 2.
 	private CheckersPiece multicapture;
+	private String whoWon = "";
+	private boolean gamesOver = false;
 	
 	// Checkers board size will be dynamic.
 	public CheckersGame(int width, int height){
@@ -55,6 +57,7 @@ public class CheckersGame extends Observable {
 			multicapture = captured;
 			multicapture.setMulticapturing(true);
 		}
+		isGameOver();
 		setChanged();
 		notifyObservers();
 	}
@@ -63,21 +66,36 @@ public class CheckersGame extends Observable {
 		gameBoard = new GameBoard(width, height);
 		
 		// ODDS
-		for(int i = 1; i < width; i += 2){
-			gameBoard.put(new CheckersPiece(p1, gameBoard), i, 1);
-			gameBoard.put(new CheckersPiece(p2, gameBoard), i, 5);
-			gameBoard.put(new CheckersPiece(p2, gameBoard), i, 7);
-		}
+		//for(int i = 1; i < width; i += 2){
+			//gameBoard.put(new CheckersPiece(p1, gameBoard), i, 1);
+			//gameBoard.put(new CheckersPiece(p2, gameBoard), i, 5);
+			gameBoard.put(new CheckersPiece(p2, gameBoard), 1, 7);
+		//}
 		// EVENS
-		for(int i = 0; i < height; i += 2){
-			gameBoard.put(new CheckersPiece(p1, gameBoard), i, 0);
-			gameBoard.put(new CheckersPiece(p1, gameBoard), i, 2);
-			gameBoard.put(new CheckersPiece(p2, gameBoard), i, 6);
-		}
+		//for(int i = 0; i < height; i += 2){
+			//gameBoard.put(new CheckersPiece(p1, gameBoard), i, 0);
+			gameBoard.put(new CheckersPiece(p1, gameBoard), 0, 2);
+			//gameBoard.put(new CheckersPiece(p2, gameBoard), i, 6);
+		//}
 	}
 	
 	public boolean isGameOver(){
-		return p1.getPiecesCount() == 0 || p2.getPiecesCount() == 0;
+		System.out.println(p1.getPiecesCount());
+		System.out.println(p2.getPiecesCount());
+		if(p2.lost()){
+			whoWon = "Player one WINS!";
+			gamesOver = true;
+		}
+		else if(p1.lost()){
+			whoWon = "Player two WINS!";
+			gamesOver = true;
+		}
+		setChanged();
+		notifyObservers();
+		return gamesOver;
+	}
+	public String won(){
+		return whoWon;
 	}
 	
 	public void resetGame(){

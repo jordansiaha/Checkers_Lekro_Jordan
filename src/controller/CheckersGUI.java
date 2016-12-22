@@ -3,13 +3,16 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.CheckersGame;
@@ -41,6 +44,7 @@ public class CheckersGUI extends JFrame implements ActionListener {
 	private JButton textViewButton;
 	private JButton graphicViewButton;
 	private JPanel viewChangePanel;
+	private JTextArea gameIsOver;
 
 	public static void main(String[] args) {
 		CheckersGUI g = new CheckersGUI();
@@ -60,7 +64,7 @@ public class CheckersGUI extends JFrame implements ActionListener {
 		addObservers();
 
 		// Set default view
-		setViewTo(graphicView); 
+		setViewTo(graphicView);
 	}
 
 	// Add observers to the game.
@@ -104,16 +108,30 @@ public class CheckersGUI extends JFrame implements ActionListener {
 		movePanel.add(makeMove);
 
 		viewChangePanel = new JPanel();
-		viewChangePanel.setBackground(Color.RED); // Setting background colors is a nice way of visually seeing a panel's bounds.
-													// Especially helpful when NULL layouts are involved.
+		viewChangePanel.setBackground(Color.RED); // Setting background colors
+													// is a nice way of visually
+													// seeing a panel's bounds.
+													// Especially helpful when
+													// NULL layouts are
+													// involved.
 		textViewButton = new JButton("Text View");
 		textViewButton.addActionListener(this);
 		graphicViewButton = new JButton("Graphic View");
 		graphicViewButton.addActionListener(this);
 		viewChangePanel.add(textViewButton);
 		viewChangePanel.add(graphicViewButton);
+		gameIsOver = new JTextArea();
+		gameIsOver.setBackground(Color.GRAY);
+		gameIsOver.setFont(new Font("gothic", Font.ITALIC, 76));
+		gameIsOver.setSize(300,100);
+		gameIsOver.setLocation(650,200);
+		gameIsOver.setForeground(Color.GREEN);
+		gameIsOver.setText(theGame.won());
+		gameIsOver.setFocusable(false);
+		gameIsOver.setEditable(false);
 		this.add(movePanel, BorderLayout.SOUTH);
 		this.add(viewChangePanel, BorderLayout.NORTH);
+		this.add(gameIsOver, BorderLayout.EAST);
 	}
 
 	// Set the game view.
@@ -128,24 +146,28 @@ public class CheckersGUI extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == textViewButton) {
-			setViewTo(textView);
-		} else if (e.getSource() == graphicViewButton) {
-			setViewTo(graphicView);
-		} else {
-			if (!moveFromX.getText().isEmpty() && !moveFromY.getText().isEmpty() && !moveToX.getText().isEmpty()
-					&& !moveToY.getText().isEmpty()) {
-				int x1 = Integer.parseInt(moveFromX.getText());
-				int y1 = Integer.parseInt(moveFromY.getText());
-				int x2 = Integer.parseInt(moveToX.getText());
-				int y2 = Integer.parseInt(moveToY.getText());
-				theGame.executeMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
-				moveFromX.setText("");
-				moveFromY.setText("");
-				moveToX.setText("");
-				moveToY.setText("");
-				textView.updateFields();
-			}
+		if(theGame.isGameOver()){
+			JOptionPane.showMessageDialog(this, theGame.won());
+		}
+			if (e.getSource() == textViewButton) {
+				setViewTo(textView);
+			} else if (e.getSource() == graphicViewButton) {
+				setViewTo(graphicView);
+			} else {
+				if (!moveFromX.getText().isEmpty() && !moveFromY.getText().isEmpty() && !moveToX.getText().isEmpty()
+						&& !moveToY.getText().isEmpty()) {
+					int x1 = Integer.parseInt(moveFromX.getText());
+					int y1 = Integer.parseInt(moveFromY.getText());
+					int x2 = Integer.parseInt(moveToX.getText());
+					int y2 = Integer.parseInt(moveToY.getText());
+					theGame.executeMove(theGame.getCurrentPlayer(), x1, y1, x2, y2);
+					moveFromX.setText("");
+					moveFromY.setText("");
+					moveToX.setText("");
+					moveToY.setText("");
+					textView.updateFields();
+				}
+			
 		}
 	}
 }

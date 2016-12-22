@@ -12,8 +12,9 @@ public class Player {
 	private GameBoard board;
 	private boolean isTurn;
 	private Color color;
-	private int piecesCount = 8;
+	private int piecesCount = 1;
 	private byte directionality;
+	private boolean hasLost = false;
 
 	// Each player should know which board they belong to.
 	public Player(GameBoard board, Color color, byte directionality) {
@@ -30,6 +31,9 @@ public class Player {
 		if (piecesCount > 0) {
 			piecesCount -= 1;
 		}
+	}
+	public boolean lost(){
+		return hasLost;
 	}
 
 	// Is it your turn?
@@ -71,6 +75,9 @@ public class Player {
 						// Check if we can actually capture piece in the middle.
 						if (target != null && p.canCapture(target)){
 							target.getPlayer().decreasePiecesCount();
+							if(target.getPlayer().getPiecesCount() == 0){
+								hasLost = true;
+							}
 							board.remove((x1+x2)/2,(y1+y2)/2);
 							ret = p;
 						}

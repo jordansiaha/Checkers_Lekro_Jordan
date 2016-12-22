@@ -44,6 +44,8 @@ public class GraphicView extends JPanel implements Observer, MouseListener {
 		setTileBorderRatio(8);
 		selectedLocation = null;
 		validPieces = game.getValidPieces(game.getCurrentPlayer());
+		revalidate();
+		repaint();
 	}
 	
 	@Override
