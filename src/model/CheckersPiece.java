@@ -40,7 +40,10 @@ public class CheckersPiece extends GamePiece{
 			// Get the piece we are trying to capture:
 			GamePiece target = getBoard().get((x1+x2)/2,(y1+y2)/2);
 			// Check if we can actually capture piece in the middle.
-			if (target != null && this.isCapturable(target)) return true;
+			if ((target != null && this.isCapturable(target))){
+				//getBoard().remove((x1+x2)/2,(y1+y2)/2);
+				return true;
+			}
 			return false;
 		}
 		// Otherwise, we can only move once, but only if we cannot jump.
