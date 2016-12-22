@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 import model.CheckersGame;
+import model.CheckersPiece;
 import model.GameBoard;
 import model.GamePiece;
 
@@ -79,6 +80,13 @@ public class GraphicView extends JPanel implements Observer, MouseListener {
 				g.fillOval(xPos + i * tileSize + tileBorderSize, 
 						yPos + (rows - 1 - j) * tileSize + tileBorderSize, 
 						tileSize - 2 * tileBorderSize, tileSize - 2 * tileBorderSize);
+				if (((CheckersPiece) piece).isKing()) {
+					int innerBorderSize = tileSize / 4;
+					g.setColor(Color.WHITE);
+					g.fillOval(xPos + i * tileSize + innerBorderSize, 
+							yPos + (rows - 1 - j) * tileSize + innerBorderSize, 
+							tileSize - 2 * innerBorderSize, tileSize - 2 * innerBorderSize);
+				}
 			}
 		}
 		
