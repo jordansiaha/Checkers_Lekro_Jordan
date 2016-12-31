@@ -8,9 +8,6 @@ public abstract class BoardGame extends Observable{
 	private Player p2;
 	private GameBoard gameBoard;
 	private int currentPlayerMove = 0; // Keep track of whose move it is. odd for player 1 even for player 2.
-	private CheckersPiece multicapture;
-	private String whoWon = "";
-	private boolean gamesOver = false;
 	public BoardGame(int width, int height, Player p1, Player p2){
 		this.p1 = p1;
 		this.p2 = p2;
