@@ -11,7 +11,7 @@ public class CheckersPlayer extends Player {
 
 	private boolean isTurn;
 	private Color color;
-	private int piecesCount = 1;
+	private int piecesCount = 12;
 	private byte directionality;
 	private boolean hasLost = false;
 
@@ -73,7 +73,7 @@ public class CheckersPlayer extends Player {
 						GamePiece target = board.get((x1+x2)/2,(y1+y2)/2);
 						// Check if we can actually capture piece in the middle.
 						if (target != null && p.canCapture(target)){
-							((CheckersPlayer) target.getPlayer()).decreasePiecesCount();
+							((CheckersPlayer) target.getPlayer()).decreasePiecesCount(); // THIS LINE NEEDS TO BE CHECKED
 							if(((CheckersPlayer) target.getPlayer()).getPiecesCount() == 0){
 								hasLost = true;
 							}

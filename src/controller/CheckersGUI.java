@@ -25,7 +25,7 @@ import view.TextView;
 // Controller class, decides which view is shown to the user. To be implemented much later.
 public class CheckersGUI extends JFrame implements ActionListener, Observer {
 
-	private static final String GAME_NAME = "Baka-Checkers";
+	private static final String GAME_NAME = "Checkers";
 	private static final String GAME_VERSION = "0.0.1";
 
 	private static final int gameWidth = 1280;
@@ -130,8 +130,8 @@ public class CheckersGUI extends JFrame implements ActionListener, Observer {
 		resetButton.setBackground(Color.BLACK);
 		resetButton.addActionListener(this);
 		
-		viewChangePanel.add(textViewButton);
-		viewChangePanel.add(checkersViewButton);
+		//viewChangePanel.add(textViewButton);
+		//viewChangePanel.add(checkersViewButton);
 		viewChangePanel.add(resetButton);
 		gameIsOver = new JTextArea();
 		gameIsOver.setBackground(Color.GRAY);
@@ -142,7 +142,7 @@ public class CheckersGUI extends JFrame implements ActionListener, Observer {
 		gameIsOver.setText(theGame.won());
 		gameIsOver.setFocusable(false);
 		gameIsOver.setEditable(false);
-		this.add(movePanel, BorderLayout.SOUTH);
+		//this.add(movePanel, BorderLayout.SOUTH);
 		this.add(viewChangePanel, BorderLayout.NORTH);
 		this.add(gameIsOver, BorderLayout.EAST);
 	}

@@ -1,6 +1,5 @@
 package model;
 
-// Leaving this class to you.
 public class GameBoard {
 	
 	private GamePiece [][] gameBoard;

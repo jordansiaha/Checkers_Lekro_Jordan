@@ -67,17 +67,17 @@ public class CheckersGame extends Observable {
 		gameBoard = new GameBoard(width, height);
 		
 		// ODDS
-		//for(int i = 1; i < width; i += 2){
-			//gameBoard.put(new CheckersPiece(p1, gameBoard), i, 1);
-			//gameBoard.put(new CheckersPiece(p2, gameBoard), i, 5);
-			gameBoard.put(new CheckersPiece(p2, gameBoard), 1, 7);
-		//}
+		for(int i = 1; i < width; i += 2){
+			gameBoard.put(new CheckersPiece(p1, gameBoard), i, 1);
+			gameBoard.put(new CheckersPiece(p2, gameBoard), i, 5);
+			gameBoard.put(new CheckersPiece(p2, gameBoard), i, 7);
+		}
 		// EVENS
-		//for(int i = 0; i < height; i += 2){
-			//gameBoard.put(new CheckersPiece(p1, gameBoard), i, 0);
-			gameBoard.put(new CheckersPiece(p1, gameBoard), 0, 2);
-			//gameBoard.put(new CheckersPiece(p2, gameBoard), i, 6);
-		//}
+		for(int i = 0; i < height; i += 2){
+			gameBoard.put(new CheckersPiece(p1, gameBoard), i, 0);
+			gameBoard.put(new CheckersPiece(p1, gameBoard), i, 2);
+			gameBoard.put(new CheckersPiece(p2, gameBoard), i, 6);
+		}
 	}
 	
 	public boolean isGameOver(){
